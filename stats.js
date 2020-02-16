@@ -93,16 +93,16 @@ function addPlotRow(histPlot, plotData, domain, hitsByDate) {
   var row = mapToPairList(hitsByDate);
 
   if (row.length > 0) {
-		plotData.push({
-			label: domain,
-			data: row,
-			weight: row.length
-		});
+    plotData.push({
+      label: domain,
+      data: row,
+      weight: row.length
+    });
 
-		plotData.sort(function (a, b) { return b.weight - a.weight; })
+    plotData.sort(function (a, b) { return b.weight - a.weight; })
 
-		redrawPlot(histPlot, plotData);
-	}
+    redrawPlot(histPlot, plotData);
+  }
 }
 
 /**
@@ -124,7 +124,7 @@ function addMissingZeroes(hitsByDate) {
   }
 
   if (min === null) {
-  	return;
+    return;
   }
 
   var max = new Date().getTime();  // the current moment is the upper bound
@@ -201,7 +201,7 @@ function drawLogPlot() {
     entries.forEach(function(entry) {
       var hitsByDate = domainStats[entry.domain];
       if (hitsByDate) {
-      	markHit(entry.timestamp * 1000, hitsByDate);
+        markHit(entry.timestamp * 1000, hitsByDate);
       }
     });
   });
