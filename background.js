@@ -115,6 +115,14 @@ function isNormalUrl(s) {
 
 var lastDimmedTabId = null;
 
+function handleTabClosed(closedTabId) {
+  // When the lastDimmedTab is closed we should not send it messages
+  if (lastDimmedTabId == closedTabId)
+  {
+    lastDimmedTabId = null;
+  }
+}
+
 function handleNewPage(newTab, selectedTab, sendResponse) {
   // Every code path in this function should call sendResponse.
   // Collect data.
@@ -193,7 +201,6 @@ function tabSelectionChangedHandler(tabId, selectInfo) {
 
 function windowFocusChangedHandler(windowId) {
   if (lastDimmedTabId) {
-    // TODO: What if that tab does not exist any more?
     invokeDimmer(lastDimmedTabId, "suspend");
     lastDimmedTabId = null;
   }
@@ -277,6 +284,7 @@ function initIcon() {
 }
 
 function initExtension() {
+  chrome.tabs.onRemoved.addListener(handleTabClosed);
   chrome.extension.onRequest.addListener(newPageHandler);
   chrome.tabs.onSelectionChanged.addListener(tabSelectionChangedHandler);
   chrome.windows.onFocusChanged.addListener(windowFocusChangedHandler);
